@@ -522,3 +522,406 @@ body {
 .gap-2 { gap: 0.5rem; }
 .gap-3 { gap: 0.75rem; }
 .gap-4 { gap: 1rem; }
+
+/* Update-Banner */
+.update-banner {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #1d4ed8;
+  position: relative;
+  overflow: hidden;
+}
+
+.update-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.update-banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+.update-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.update-banner-icon {
+  width: 2rem;
+  height: 2rem;
+  color: white;
+  opacity: 0.9;
+}
+
+.update-details h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.update-details p {
+  margin: 0 0 0.5rem 0;
+  opacity: 0.9;
+  font-size: 0.9rem;
+}
+
+.update-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.update-meta code {
+  background: rgba(255,255,255,0.2);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: 'Courier New', monospace;
+}
+
+.update-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.update-notification {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border-radius: var(--radius-lg);
+  font-size: 0.8rem;
+  font-weight: 500;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.update-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.btn.has-update {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  animation: pulse 2s infinite;
+}
+
+/* Pi-Identität im Header */
+.pi-identity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 1rem;
+}
+
+.pi-model {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #2c3e50;
+}
+
+.pi-serial {
+  font-size: 0.7rem;
+  color: #7f8c8d;
+  font-family: 'Courier New', monospace;
+}
+
+/* Hardware-Info-Sektion */
+.pi-hardware-section {
+  margin-bottom: 2rem;
+}
+
+.pi-info-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+}
+
+.pi-info-card .card-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pi-info-card .card-title {
+  color: white;
+}
+
+.pi-info-card .card-icon {
+  color: white;
+}
+
+.hardware-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.hardware-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hardware-label {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  font-weight: 500;
+}
+
+.hardware-value {
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+  word-break: break-all;
+}
+
+/* System-Info ergänzen */
+.system-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+}
+
+.info-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2c3e50;
+  font-family: 'Courier New', monospace;
+}
+
+/* Hardware-Details Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 90%;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #2c3e50;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #999;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  background: #f8f9fa;
+  color: #666;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.hardware-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.hardware-section {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.hardware-section h3 {
+  margin: 0 0 1rem 0;
+  color: #495057;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.5rem;
+}
+
+.hardware-section .hardware-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.hardware-section .hardware-item:last-child {
+  border-bottom: none;
+}
+
+.hardware-section .label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #6c757d;
+}
+
+.hardware-section .value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #212529;
+  font-family: 'Courier New', monospace;
+  text-align: right;
+  max-width: 60%;
+  word-break: break-all;
+}
+
+/* Update-Status-Indikatoren */
+.update-status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.update-status-indicator.checking {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.update-status-indicator.up-to-date {
+  background: #ecfdf5;
+  color: #10b981;
+}
+
+.update-status-indicator.update-available {
+  background: #fef3c7;
+  color: #d97706;
+  animation: pulse 2s infinite;
+}
+
+.update-status-indicator.error {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+/* Responsive Design für neue Elemente */
+@media (max-width: 768px) {
+  .pi-identity {
+    display: none;
+  }
+  
+  .hardware-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .hardware-details-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content {
+    width: 95%;
+    margin: 2rem 0;
+  }
+  
+  .hardware-section .hardware-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .hardware-section .value {
+    max-width: 100%;
+    text-align: left;
+  }
+  
+  .update-banner-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .update-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .update-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
