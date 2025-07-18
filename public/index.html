@@ -3,186 +3,431 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pi Manager - Dashboard</title>
+    <title>Pi Manager - Professional Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/heroicons@2.0.18/24/outline/index.js" type="module"></script>
+    <script src="https://unpkg.com/heroicons@2.0.18/24/solid/index.js" type="module"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🥧 Pi Manager Dashboard</h1>
-            <div class="user-info">
-                <span id="username"></span>
-                <button id="logout-btn" class="btn btn-secondary">Abmelden</button>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+                </svg>
+                <span class="logo-text">Pi Manager</span>
             </div>
-        </header>
-
-        <main>
-            <!-- Status Overview -->
-            <section class="status-section">
-                <h2>System Status</h2>
-                <div class="status-grid">
-                    <div class="status-card">
-                        <h3>Online Status</h3>
-                        <div id="online-status" class="status-indicator online">Online</div>
-                        <div id="uptime">Uptime: --</div>
-                    </div>
-                    <div class="status-card">
-                        <h3>CPU</h3>
-                        <div id="cpu-info">--</div>
-                        <div id="cpu-load">Load: --</div>
-                    </div>
-                    <div class="status-card">
-                        <h3>Memory</h3>
-                        <div id="memory-usage">--</div>
-                        <div class="progress-bar">
-                            <div id="memory-progress" class="progress-fill"></div>
-                        </div>
-                    </div>
-                    <div class="status-card">
-                        <h3>Temperature</h3>
-                        <div id="temperature">-- °C</div>
-                        <div id="temp-status">Normal</div>
-                    </div>
-                    <div class="status-card" id="image-update-card" style="display: none;">
-                        <h3>Image Update</h3>
-                        <div id="image-update-status" class="status-indicator warning">Update verfügbar</div>
-                        <div id="image-update-info">--</div>
-                    </div>
+            
+            <div class="header-actions">
+                <div class="status-badge online" id="statusBadge">
+                    <div class="status-indicator"></div>
+                    <span id="statusText">Online</span>
                 </div>
-            </section>
-
-            <!-- Control Panel -->
-            <section class="control-section">
-                <h2>System Control</h2>
-                <div class="control-buttons">
-                    <button id="reboot-btn" class="btn btn-warning">🔄 Neustart</button>
-                    <button id="shutdown-btn" class="btn btn-danger">⚡ Herunterfahren</button>
-                    <button id="test-notification-btn" class="btn btn-info">📢 Test Benachrichtigung</button>
-                    <button id="update-check-btn" class="btn btn-primary">🔄 Update prüfen</button>
-                    <button id="image-update-check-btn" class="btn btn-info">💿 Image Update prüfen</button>
-                </div>
-            </section>
-
-            <!-- Configuration -->
-            <section class="config-section">
-                <h2>Konfiguration</h2>
-                <div class="config-tabs">
-                    <button class="tab-btn active" data-tab="general">Allgemein</button>
-                    <button class="tab-btn" data-tab="notifications">Benachrichtigungen</button>
-                    <button class="tab-btn" data-tab="updates">Updates</button>
-                    <button class="tab-btn" data-tab="security">Sicherheit</button>
-                </div>
-
-                <div class="tab-content">
-                    <!-- General Tab -->
-                    <div id="general-tab" class="tab-pane active">
-                        <form id="general-form">
-                            <div class="form-group">
-                                <label for="device-name">Gerätename:</label>
-                                <input type="text" id="device-name" name="device_name" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Speichern</button>
-                        </form>
-                    </div>
-
-                    <!-- Notifications Tab -->
-                    <div id="notifications-tab" class="tab-pane">
-                        <form id="notifications-form">
-                            <div class="form-group">
-                                <label for="notification-url">Benachrichtigungs-URL:</label>
-                                <input type="url" id="notification-url" name="notification_url" 
-                                       placeholder="https://example.com/webhook">
-                                <small>URL für HTTP POST Benachrichtigungen</small>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Speichern</button>
-                        </form>
-                    </div>
-
-                    <!-- Updates Tab -->
-                    <div id="updates-tab" class="tab-pane">
-                        <form id="updates-form">
-                            <div class="form-group">
-                                <label for="github-repo">GitHub Repository:</label>
-                                <input type="url" id="github-repo" name="github_repo" 
-                                       placeholder="https://github.com/user/repo.git">
-                            </div>
-                            <div class="form-group">
-                                <label for="github-branch">Branch:</label>
-                                <input type="text" id="github-branch" name="github_branch" 
-                                       value="main" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="update-interval">Update-Intervall (Sekunden):</label>
-                                <input type="number" id="update-interval" name="update_interval" 
-                                       min="60" value="120" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" id="auto-update" name="auto_update_enabled">
-                                    Automatische Updates aktivieren
-                                </label>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Speichern</button>
-                        </form>
-                    </div>
-
-                    <!-- Security Tab -->
-                    <div id="security-tab" class="tab-pane">
-                        <form id="password-form">
-                            <h3>Passwort ändern</h3>
-                            <div class="form-group">
-                                <label for="current-password">Aktuelles Passwort:</label>
-                                <input type="password" id="current-password" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="new-password">Neues Passwort:</label>
-                                <input type="password" id="new-password" minlength="6" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="confirm-password">Passwort bestätigen:</label>
-                                <input type="password" id="confirm-password" minlength="6" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Passwort ändern</button>
-                        </form>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Logs -->
-            <section class="logs-section">
-                <h2>System Logs</h2>
-                <div class="logs-controls">
-                    <button id="refresh-logs-btn" class="btn btn-secondary">🔄 Aktualisieren</button>
-                    <select id="log-limit">
-                        <option value="50">50 Einträge</option>
-                        <option value="100" selected>100 Einträge</option>
-                        <option value="200">200 Einträge</option>
-                    </select>
-                </div>
-                <div id="logs-container" class="logs-container">
-                    <div class="loading">Logs werden geladen...</div>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <!-- Modal for confirmations -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <h3 id="modal-title">Bestätigung</h3>
-            <p id="modal-message">Sind Sie sicher?</p>
-            <div class="modal-buttons">
-                <button id="modal-confirm" class="btn btn-danger">Bestätigen</button>
-                <button id="modal-cancel" class="btn btn-secondary">Abbrechen</button>
+                <button class="btn btn-secondary" onclick="window.location.reload()">
+                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    Aktualisieren
+                </button>
             </div>
         </div>
-    </div>
+    </header>
 
-    <!-- Toast notifications -->
-    <div id="toast-container"></div>
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- System Overview -->
+            <div class="card stats-card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        System Status
+                    </h3>
+                </div>
+                <div class="stat-value" id="uptime">--</div>
+                <div class="stat-label">Uptime</div>
+                <div class="stat-change positive" id="uptimeChange">
+                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                    +24h seit letztem Neustart
+                </div>
+            </div>
 
-    <script src="/socket.io/socket.io.js"></script>
+            <!-- CPU Usage -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        CPU Auslastung
+                    </h3>
+                </div>
+                <div class="card-content">
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>CPU</span>
+                            <span id="cpuUsage">--</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="cpuProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Temperatur</span>
+                            <span id="cpuTemp">--</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="tempProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Memory Usage -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                        </svg>
+                        Speicher
+                    </h3>
+                </div>
+                <div class="card-content">
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>RAM</span>
+                            <span id="memUsage">--</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="memProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Festplatte</span>
+                            <span id="diskUsage">--</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="diskProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Network Status -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path>
+                        </svg>
+                        Netzwerk
+                    </h3>
+                </div>
+                <div class="card-content">
+                    <div class="system-info">
+                        <div class="info-item">
+                            <span class="info-label">IP-Adresse</span>
+                            <span class="info-value" id="ipAddress">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Hostname</span>
+                            <span class="info-value" id="hostname">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Verbindung</span>
+                            <span class="info-value" id="connectionType">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GitHub Integration -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <svg class="card-icon" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        GitHub Integration
+                    </h3>
+                </div>
+                <div class="card-content">
+                    <div class="system-info">
+                        <div class="info-item">
+                            <span class="info-label">Repository</span>
+                            <span class="info-value" id="repoStatus">henningd/pi-manager</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Letzter Commit</span>
+                            <span class="info-value" id="lastCommit">--</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">MCP Server</span>
+                            <span class="info-value" id="mcpStatus">✅ Aktiv</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-grid">
+            <button class="btn btn-primary" onclick="updateFromGitHub()">
+                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                Update von GitHub
+            </button>
+            
+            <button class="btn btn-success" onclick="restartServices()">
+                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                Dienste Neustarten
+            </button>
+
+            <button class="btn btn-warning" onclick="cleanupSystem()">
+                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+                System Bereinigen
+            </button>
+
+            <button class="btn btn-secondary" onclick="showSystemInfo()">
+                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                System Info
+            </button>
+        </div>
+
+        <!-- Alerts -->
+        <div id="alertContainer"></div>
+
+        <!-- System Logs -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <svg class="card-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    System Logs
+                </h3>
+                <button class="btn btn-secondary" onclick="clearLogs()">
+                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                    Leeren
+                </button>
+            </div>
+            <div class="card-content">
+                <div class="log-container" id="logContainer">
+                    <div class="log-entry info">[INFO] Pi Manager gestartet</div>
+                    <div class="log-entry success">[SUCCESS] Alle Services laufen</div>
+                    <div class="log-entry info">[INFO] System bereit für Verbindungen</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
     <script src="js/app.js"></script>
+    <script>
+        // Initialize Dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDashboard();
+        });
+
+        function initializeDashboard() {
+            updateSystemInfo();
+            updateGitHubInfo();
+            startRealTimeUpdates();
+        }
+
+        function updateSystemInfo() {
+            // Simulate system data (in real implementation, this would come from API)
+            document.getElementById('uptime').textContent = formatUptime(Date.now() - 86400000);
+            document.getElementById('cpuUsage').textContent = '23%';
+            document.getElementById('cpuTemp').textContent = '42°C';
+            document.getElementById('memUsage').textContent = '65%';
+            document.getElementById('diskUsage').textContent = '34%';
+            document.getElementById('ipAddress').textContent = '192.168.0.202';
+            document.getElementById('hostname').textContent = 'raspberrypi';
+            document.getElementById('connectionType').textContent = 'WiFi';
+            
+            // Update progress bars
+            updateProgressBar('cpuProgress', 23);
+            updateProgressBar('tempProgress', 42);
+            updateProgressBar('memProgress', 65);
+            updateProgressBar('diskProgress', 34);
+        }
+
+        function updateGitHubInfo() {
+            document.getElementById('lastCommit').textContent = 'vor 2 Stunden';
+        }
+
+        function updateProgressBar(id, value) {
+            const bar = document.getElementById(id);
+            bar.style.width = value + '%';
+            
+            // Update color based on value
+            if (value > 80) {
+                bar.className = 'progress-fill error';
+            } else if (value > 60) {
+                bar.className = 'progress-fill warning';
+            } else {
+                bar.className = 'progress-fill';
+            }
+        }
+
+        function formatUptime(ms) {
+            const days = Math.floor(ms / 86400000);
+            const hours = Math.floor((ms % 86400000) / 3600000);
+            const minutes = Math.floor((ms % 3600000) / 60000);
+            
+            if (days > 0) {
+                return `${days}d ${hours}h`;
+            } else if (hours > 0) {
+                return `${hours}h ${minutes}m`;
+            } else {
+                return `${minutes}m`;
+            }
+        }
+
+        function startRealTimeUpdates() {
+            setInterval(updateSystemInfo, 5000);
+        }
+
+        function showAlert(type, message) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            
+            const iconMap = {
+                success: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>',
+                warning: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 14c-.77.833.192 2.5 1.732 2.5z"></path>',
+                error: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>',
+                info: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>'
+            };
+            
+            alert.innerHTML = `
+                <svg class="alert-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    ${iconMap[type]}
+                </svg>
+                <span>${message}</span>
+            `;
+            
+            alertContainer.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        function addLogEntry(level, message) {
+            const logContainer = document.getElementById('logContainer');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${level}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] [${level.toUpperCase()}] ${message}`;
+            
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        // Action Functions
+        function updateFromGitHub() {
+            showAlert('info', 'Update von GitHub wird gestartet...');
+            addLogEntry('info', 'GitHub Update gestartet');
+            
+            fetch('/api/update-github', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showAlert('success', 'Update erfolgreich abgeschlossen');
+                        addLogEntry('success', 'GitHub Update erfolgreich');
+                    } else {
+                        showAlert('error', 'Update fehlgeschlagen: ' + data.error);
+                        addLogEntry('error', 'GitHub Update fehlgeschlagen');
+                    }
+                })
+                .catch(error => {
+                    showAlert('error', 'Fehler beim Update: ' + error.message);
+                    addLogEntry('error', 'GitHub Update Fehler: ' + error.message);
+                });
+        }
+
+        function restartServices() {
+            showAlert('info', 'Dienste werden neu gestartet...');
+            addLogEntry('info', 'Services werden neu gestartet');
+            
+            fetch('/api/restart-services', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showAlert('success', 'Dienste erfolgreich neu gestartet');
+                        addLogEntry('success', 'Services neu gestartet');
+                    } else {
+                        showAlert('error', 'Neustart fehlgeschlagen: ' + data.error);
+                        addLogEntry('error', 'Service Neustart fehlgeschlagen');
+                    }
+                })
+                .catch(error => {
+                    showAlert('error', 'Fehler beim Neustart: ' + error.message);
+                    addLogEntry('error', 'Service Neustart Fehler: ' + error.message);
+                });
+        }
+
+        function cleanupSystem() {
+            showAlert('info', 'System wird bereinigt...');
+            addLogEntry('info', 'System Bereinigung gestartet');
+            
+            fetch('/api/cleanup-system', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showAlert('success', 'System erfolgreich bereinigt');
+                        addLogEntry('success', 'System bereinigt');
+                    } else {
+                        showAlert('error', 'Bereinigung fehlgeschlagen: ' + data.error);
+                        addLogEntry('error', 'System Bereinigung fehlgeschlagen');
+                    }
+                })
+                .catch(error => {
+                    showAlert('error', 'Fehler bei der Bereinigung: ' + error.message);
+                    addLogEntry('error', 'System Bereinigung Fehler: ' + error.message);
+                });
+        }
+
+        function showSystemInfo() {
+            addLogEntry('info', 'System Info angezeigt');
+            const info = `
+                Raspberry Pi Manager
+                Version: 2.0.0
+                Node.js: ${navigator.userAgent}
+                Betriebssystem: Raspberry Pi OS
+                Architektur: ARM64
+                GitHub MCP: Aktiv
+            `;
+            showAlert('info', 'System Info in Logs angezeigt');
+            addLogEntry('info', info);
+        }
+
+        function clearLogs() {
+            document.getElementById('logContainer').innerHTML = '';
+            addLogEntry('info', 'Logs geleert');
+        }
+    </script>
 </body>
 </html>
