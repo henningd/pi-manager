@@ -1,3 +1,15 @@
+/* Icon size fix */
+.btn svg, .card-header svg, .header-actions svg, .update-info svg, .update-actions svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0; /* Prevent shrinking in flex containers */
+}
+
+.logo-section .logo-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
 /* Pi Manager - Professional Dashboard Design */
 :root {
   --primary-color: #2563eb;
