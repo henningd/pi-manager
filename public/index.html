@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pi Manager - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🥧 Pi Manager Dashboard</h1>
+            <div class="user-info">
+                <span id="username"></span>
+                <button id="logout-btn" class="btn btn-secondary">Abmelden</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Status Overview -->
+            <section class="status-section">
+                <h2>System Status</h2>
+                <div class="status-grid">
+                    <div class="status-card">
+                        <h3>Online Status</h3>
+                        <div id="online-status" class="status-indicator online">Online</div>
+                        <div id="uptime">Uptime: --</div>
+                    </div>
+                    <div class="status-card">
+                        <h3>CPU</h3>
+                        <div id="cpu-info">--</div>
+                        <div id="cpu-load">Load: --</div>
+                    </div>
+                    <div class="status-card">
+                        <h3>Memory</h3>
+                        <div id="memory-usage">--</div>
+                        <div class="progress-bar">
+                            <div id="memory-progress" class="progress-fill"></div>
+                        </div>
+                    </div>
+                    <div class="status-card">
+                        <h3>Temperature</h3>
+                        <div id="temperature">-- °C</div>
+                        <div id="temp-status">Normal</div>
+                    </div>
+                    <div class="status-card" id="image-update-card" style="display: none;">
+                        <h3>Image Update</h3>
+                        <div id="image-update-status" class="status-indicator warning">Update verfügbar</div>
+                        <div id="image-update-info">--</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Control Panel -->
+            <section class="control-section">
+                <h2>System Control</h2>
+                <div class="control-buttons">
+                    <button id="reboot-btn" class="btn btn-warning">🔄 Neustart</button>
+                    <button id="shutdown-btn" class="btn btn-danger">⚡ Herunterfahren</button>
+                    <button id="test-notification-btn" class="btn btn-info">📢 Test Benachrichtigung</button>
+                    <button id="update-check-btn" class="btn btn-primary">🔄 Update prüfen</button>
+                    <button id="image-update-check-btn" class="btn btn-info">💿 Image Update prüfen</button>
+                </div>
+            </section>
+
+            <!-- Configuration -->
+            <section class="config-section">
+                <h2>Konfiguration</h2>
+                <div class="config-tabs">
+                    <button class="tab-btn active" data-tab="general">Allgemein</button>
+                    <button class="tab-btn" data-tab="notifications">Benachrichtigungen</button>
+                    <button class="tab-btn" data-tab="updates">Updates</button>
+                    <button class="tab-btn" data-tab="security">Sicherheit</button>
+                </div>
+
+                <div class="tab-content">
+                    <!-- General Tab -->
+                    <div id="general-tab" class="tab-pane active">
+                        <form id="general-form">
+                            <div class="form-group">
+                                <label for="device-name">Gerätename:</label>
+                                <input type="text" id="device-name" name="device_name" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Speichern</button>
+                        </form>
+                    </div>
+
+                    <!-- Notifications Tab -->
+                    <div id="notifications-tab" class="tab-pane">
+                        <form id="notifications-form">
+                            <div class="form-group">
+                                <label for="notification-url">Benachrichtigungs-URL:</label>
+                                <input type="url" id="notification-url" name="notification_url" 
+                                       placeholder="https://example.com/webhook">
+                                <small>URL für HTTP POST Benachrichtigungen</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Speichern</button>
+                        </form>
+                    </div>
+
+                    <!-- Updates Tab -->
+                    <div id="updates-tab" class="tab-pane">
+                        <form id="updates-form">
+                            <div class="form-group">
+                                <label for="github-repo">GitHub Repository:</label>
+                                <input type="url" id="github-repo" name="github_repo" 
+                                       placeholder="https://github.com/user/repo.git">
+                            </div>
+                            <div class="form-group">
+                                <label for="github-branch">Branch:</label>
+                                <input type="text" id="github-branch" name="github_branch" 
+                                       value="main" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="update-interval">Update-Intervall (Sekunden):</label>
+                                <input type="number" id="update-interval" name="update_interval" 
+                                       min="60" value="120" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="auto-update" name="auto_update_enabled">
+                                    Automatische Updates aktivieren
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Speichern</button>
+                        </form>
+                    </div>
+
+                    <!-- Security Tab -->
+                    <div id="security-tab" class="tab-pane">
+                        <form id="password-form">
+                            <h3>Passwort ändern</h3>
+                            <div class="form-group">
+                                <label for="current-password">Aktuelles Passwort:</label>
+                                <input type="password" id="current-password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password">Neues Passwort:</label>
+                                <input type="password" id="new-password" minlength="6" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Passwort bestätigen:</label>
+                                <input type="password" id="confirm-password" minlength="6" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Passwort ändern</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Logs -->
+            <section class="logs-section">
+                <h2>System Logs</h2>
+                <div class="logs-controls">
+                    <button id="refresh-logs-btn" class="btn btn-secondary">🔄 Aktualisieren</button>
+                    <select id="log-limit">
+                        <option value="50">50 Einträge</option>
+                        <option value="100" selected>100 Einträge</option>
+                        <option value="200">200 Einträge</option>
+                    </select>
+                </div>
+                <div id="logs-container" class="logs-container">
+                    <div class="loading">Logs werden geladen...</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for confirmations -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-title">Bestätigung</h3>
+            <p id="modal-message">Sind Sie sicher?</p>
+            <div class="modal-buttons">
+                <button id="modal-confirm" class="btn btn-danger">Bestätigen</button>
+                <button id="modal-cancel" class="btn btn-secondary">Abbrechen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notifications -->
+    <div id="toast-container"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
