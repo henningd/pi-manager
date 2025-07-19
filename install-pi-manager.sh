@@ -53,7 +53,7 @@ if [ -d "pi-manager" ]; then
 fi
 
 # Clone as the actual user, not root
-sudo -u $ACTUAL_USER git clone https://github.com/henningd/pi-manager.git
+sudo -u $ACTUAL_USER git clone --branch master https://github.com/henningd/pi-manager.git
 cd pi-manager
 
 # Install dependencies
@@ -136,7 +136,6 @@ else
     echo "❌ Pi Manager service failed to start"
     echo "📝 Check logs with: sudo journalctl -u pi-manager -f"
     echo "🔧 Try manual start: sudo systemctl start pi-manager"
-    exit 1
 fi
 
 # Clean up
@@ -145,3 +144,6 @@ rm -f /boot/install-pi-manager.sh
 
 echo ""
 echo "✅ Installation complete! Enjoy your Pi Manager! 🥧"
+
+# Hand over to the regular init process to continue the boot process
+exec /sbin/init
