@@ -6,40 +6,53 @@
     <title>Pi Manager - Login</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="login-page">
-    <div class="login-container">
-        <div class="login-card">
-            <div class="login-header">
-                <h1>🥧 Pi Manager</h1>
-                <p>Raspberry Pi Remote Management</p>
+
+    <div class="login-wrapper">
+        <div class="login-branding">
+            <div class="branding-content">
+                <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14 2H10C8.9 2 8 2.9 8 4V6H5V4H3V6H2V8H3V10H2V12H3V14H2V16H3V18H5V16H8V18C8 19.1 8.9 20 10 20H14C15.1 20 16 19.1 16 18V14H18V16H20V14H21V12H20V10H21V8H20V6H18V4H16V2H14ZM14 18H10V16H14V18ZM14 14H10V10H14V14ZM14 8H10V4H14V8Z" />
+                </svg>
+                <h1>Willkommen beim Pi Manager</h1>
+                <p>Ihr zentrales Cockpit für die Verwaltung Ihrer Raspberry Pis.</p>
             </div>
-            
-            <form id="login-form" class="login-form">
-                <div class="form-group">
-                    <label for="username">Benutzername:</label>
-                    <input type="text" id="username" name="username" required autofocus>
+        </div>
+        <div class="login-form-area">
+            <div class="login-card">
+                <div class="login-header">
+                    <h2>Anmelden</h2>
+                    <p>Bitte geben Sie Ihre Zugangsdaten ein.</p>
                 </div>
                 
-                <div class="form-group">
-                    <label for="password">Passwort:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="username">Benutzername</label>
+                        <input type="text" id="username" name="username" required autofocus>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Passwort</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-full">Anmelden</button>
+                </form>
                 
-                <button type="submit" class="btn btn-primary btn-full">Anmelden</button>
-            </form>
-            
-            <div id="login-error" class="error-message" style="display: none;"></div>
-            
-            <div class="login-footer">
-                <p>Standard Login: admin / admin123</p>
+                <div id="login-error" class="error-message" style="display: none;"></div>
+                
+                <div class="login-footer">
+                    <p>Standard: admin / admin123</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Toast notifications -->
     <div id="toast-container"></div>
-
     <script src="js/login.js"></script>
 </body>
 </html>
